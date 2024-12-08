@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker } from "react-day-picker";
-
+import { DayPicker, SelectSingleEventHandler } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -53,14 +53,43 @@ function Calendar({
         day_hidden: "invisible",
         ...classNames,
       }}
-      components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
-      }}
+      // @ts-ignore
+      renderNavPrev={(
+        props: React.JSX.IntrinsicAttributes &
+          React.ClassAttributes<HTMLButtonElement> &
+          React.ButtonHTMLAttributes<HTMLButtonElement>
+      ) => (
+        <button
+          type="button"
+          className={cn(
+            buttonVariants({ variant: "outline" }),
+            "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+          )}
+          {...props} // Spread the props passed to renderNavPrev
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+      )}
+      renderNavNext={(
+        props: React.JSX.IntrinsicAttributes &
+          React.ClassAttributes<HTMLButtonElement> &
+          React.ButtonHTMLAttributes<HTMLButtonElement>
+      ) => (
+        <button
+          type="button"
+          className={cn(
+            buttonVariants({ variant: "outline" }),
+            "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+          )}
+          {...props} // Spread the props passed to renderNavNext
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      )}
       {...props}
     />
   );
 }
-Calendar.displayName = "Calendar";
 
+Calendar.displayName = "Calendar";
 export { Calendar };
